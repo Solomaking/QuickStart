@@ -1,7 +1,7 @@
 package org.example;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,7 +10,7 @@ public class BaseTest {
     public WebDriver driver;
     public JavascriptExecutor js;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         System.setProperty(
                 "webdriver.chrome.driver", "src/main/resources/chromedriver.exe"
@@ -19,7 +19,7 @@ public class BaseTest {
         js = (JavascriptExecutor) driver;
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         driver.quit();
     }
