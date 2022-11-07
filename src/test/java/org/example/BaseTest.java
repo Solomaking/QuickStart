@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.lesson14.PageGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
@@ -13,8 +14,7 @@ import java.util.Set;
 
 public class BaseTest {
     public WebDriver driver;
-    public JavascriptExecutor js;
-    public Map<String, Object> vars;
+    public PageGenerator page;
 
     @BeforeEach
     public void setUp() {
@@ -22,30 +22,13 @@ public class BaseTest {
                 "webdriver.chrome.driver", "src/main/resources/chromedriver.exe"
         );
         driver = new ChromeDriver();
-        js = (JavascriptExecutor) driver;
-        vars = new HashMap<>();
+        page = new PageGenerator(driver);
+        driver.manage().window().maximize();
     }
 
     @AfterEach
     public void tearDown() {
+        driver.manage().deleteAllCookies();
         driver.quit();
-    }
-
-    public String waitForWindow(int timeout) {
-        try {
-            Thread.sleep(timeout);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Set<String> whNow = driver.getWindowHandles();
-        Set<String> whThen = (Set<String>) vars.get("window_handles");
-        if (whNow.size() > whThen.size()) {
-            whNow.removeAll(whThen);
-        }
-        return whNow.iterator().next();
-    }
-
-    public void acceptCookies() {
-        driver.findElement(By.xpath("//*[@id=\"gatsby-focus-wrapper\"]/div/section/div/button[2]")).click();
     }
 }
